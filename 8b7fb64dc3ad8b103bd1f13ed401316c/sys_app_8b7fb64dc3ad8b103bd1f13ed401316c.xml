@@ -14,7 +14,7 @@
         <license_definition/>
         <license_model>none</license_model>
         <logo/>
-        <menu/>
+        <menu display_value="Properties Viewer">9dec6b6dc3e1cf103bd1f13ed4013101</menu>
         <name>Properties Viewer</name>
         <package_json display_value="x_589236_prprts/x-589236-properties-viewer/1.0.0/package.json" path="x_589236_prprts/x-589236-properties-viewer/1.0.0/package.json">x_589236_prprts/x-589236-properties-viewer/1.0.0/package.json</package_json>
         <package_resolver_version>1.0.0</package_resolver_version>
@@ -33,9 +33,9 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2026-06-16 19:17:00</sys_created_on>
         <sys_id>8b7fb64dc3ad8b103bd1f13ed401316c</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2026-06-16 19:17:00</sys_updated_on>
+        <sys_updated_on>2026-06-18 11:54:51</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <uninstall_blocked>false</uninstall_blocked>
