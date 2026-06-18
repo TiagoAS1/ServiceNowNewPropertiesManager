@@ -1,0 +1,86 @@
+/* ============================================================
+   Properties Manager – Page Layout & Header Styles
+   Uses ServiceNow Horizon Design Tokens for consistency
+   ============================================================ */
+
+/* --- Page Background --- */
+.pm-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  min-height: 100vh;
+  background-color: rgb(var(--now-color--neutral-1, 245, 246, 247));
+}
+
+/* --- Top Header Row --- */
+.pm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pm-header__title {
+  font-size: 1.625rem;
+  font-weight: 700;
+  margin: 0;
+  color: rgb(var(--now-color--neutral-18, 22, 27, 28));
+  letter-spacing: -0.02em;
+}
+
+/* --- Application Selector Card --- */
+.pm-card {
+  background: rgb(var(--now-color--neutral-0, 255, 255, 255));
+  border: 1px solid rgb(var(--now-color--neutral-3, 218, 222, 224));
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.pm-card__label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pm-card__input {
+  width: 100%;
+  max-width: 440px;
+  min-width: 280px;
+}
+
+/* Fix: Force now-select web component to fill container width */
+.pm-card__input now-select,
+.pm-card__input now-dropdown {
+  display: block;
+  width: 100%;
+  min-width: 280px;
+}
+
+/* Fix: Ensure the popover list has a sensible minimum width */
+.pm-card__input now-select::part(popover),
+.pm-card__input now-popover {
+  min-width: 280px;
+}
+
+/* --- Error State --- */
+.pm-card__error {
+  margin: 8px 0 0 0;
+  font-size: 0.8125rem;
+  color: rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+}
+
+/* --- Empty State --- */
+.pm-page__empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: rgb(var(--now-color--neutral-10, 79, 92, 98));
+  font-size: 0.9375rem;
+  font-style: italic;
+  margin: 0;
+}

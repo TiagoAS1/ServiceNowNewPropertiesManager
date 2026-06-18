@@ -1,0 +1,211 @@
+/* ============================================================
+   Properties Table – Desktop layout with crisp borders
+   + Mobile responsive stacked/card pattern
+   ============================================================ */
+
+.properties-table__header {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: rgb(var(--now-color--neutral-18, 22, 27, 28));
+}
+
+/* --- Filter Card: matches application selector card (.pm-card) pattern --- */
+.properties-table__filter-card {
+  background: rgb(var(--now-color--neutral-0, 255, 255, 255));
+  border: 1px solid rgb(var(--now-color--neutral-3, 218, 222, 224));
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.properties-table__filter-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.properties-table__filter-input {
+  width: 100%;
+  max-width: 440px;
+  min-width: 280px;
+}
+
+.properties-table__filter-count {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8125rem;
+  color: rgb(var(--now-color--neutral-10, 79, 92, 98));
+}
+
+/* --- Table: Outer boundary with rounded corners --- */
+.properties-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgb(var(--now-color--neutral-0, 255, 255, 255));
+  border: 1px solid rgb(var(--now-color--neutral-3, 218, 222, 224));
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* --- Header: Stronger bottom border for visual separation --- */
+.properties-table thead {
+  background: rgb(var(--now-color--neutral-1, 245, 246, 247));
+}
+
+.properties-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  border-bottom: 2px solid rgb(var(--now-color--neutral-4, 207, 213, 215));
+  cursor: pointer;
+  user-select: none;
+}
+
+.properties-table__th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- Loading & Empty states --- */
+.properties-table__loading,
+.properties-table__empty {
+  padding: 32px;
+  text-align: center;
+  color: rgb(var(--now-color--neutral-10, 79, 92, 98));
+  font-style: italic;
+}
+
+.properties-table__alert {
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE – Stacked Card Pattern
+   Breakpoint: 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Hide table header on mobile */
+  .properties-table thead {
+    display: none;
+  }
+
+  /* Force table elements to block layout */
+  .properties-table,
+  .properties-table tbody,
+  .properties-table tr,
+  .properties-table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* Remove table-level border – rows become cards */
+  .properties-table {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    overflow: visible;
+  }
+
+  /* Each row becomes a card */
+  .properties-table tbody tr {
+    background: rgb(var(--now-color--neutral-0, 255, 255, 255));
+    border: 1px solid rgb(var(--now-color--neutral-3, 218, 222, 224));
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 4px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+  }
+
+  /* Each cell becomes a flex row with label on left, value on right */
+  .properties-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgb(var(--now-color--neutral-2, 233, 235, 237));
+    text-align: right;
+    min-height: 40px;
+  }
+
+  /* Last cell in each card-row: no bottom border */
+  .properties-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  /* Data label pseudo-element (shows column name on mobile) */
+  .properties-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+    text-align: left;
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+
+  /* Filter card adjusts on mobile */
+  .properties-table__filter-card {
+    padding: 16px;
+  }
+
+  .properties-table__filter-input {
+    max-width: 100%;
+  }
+}
+
+/* --- Toast Notifications --- */
+.properties-table__toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: toast-slide-in 0.25s ease-out;
+}
+
+.properties-table__toast--positive {
+  background: rgb(var(--now-color--alert-positive-0, 227, 245, 225));
+  border: 1px solid rgb(var(--now-color--alert-positive-2, 73, 148, 68));
+  color: rgb(var(--now-color--alert-positive-3, 35, 95, 31));
+}
+
+.properties-table__toast--critical {
+  background: rgb(var(--now-color--alert-critical-0, 253, 232, 231));
+  border: 1px solid rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+  color: rgb(var(--now-color--alert-critical-3, 130, 5, 0));
+}
+
+.properties-table__toast-message {
+  flex: 1;
+  margin-right: 12px;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,108 @@
+/* ============================================================
+   Property Row – View and Edit mode styles
+   Desktop + Mobile responsive adjustments
+   ============================================================ */
+
+/* --- Desktop: Row styles --- */
+.property-row td {
+  padding: 10px 16px;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  color: rgb(var(--now-color--neutral-18, 22, 27, 28));
+  border-bottom: 1px solid rgb(var(--now-color--neutral-2, 233, 235, 237));
+}
+
+/* Last row in table: no bottom border (table border handles it) */
+.property-row:last-child td {
+  border-bottom: none;
+}
+
+/* Hover effect on read-only rows */
+.property-row:hover td {
+  background: rgb(var(--now-color--neutral-1, 245, 246, 247));
+}
+
+/* Edit mode row */
+.property-row--editing td {
+  padding: 6px 12px;
+  background: rgb(var(--now-color--neutral-1, 245, 246, 247));
+}
+
+/* Actions buttons group */
+.property-row__actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+/* Toggle wrapper for vertical alignment */
+.property-row__toggle-cell {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE – Row adjustments for card layout
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Reset desktop-specific row styles */
+  .property-row td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgb(var(--now-color--neutral-2, 233, 235, 237));
+  }
+
+  .property-row:last-child td {
+    border-bottom: 1px solid rgb(var(--now-color--neutral-2, 233, 235, 237));
+  }
+
+  .property-row:last-child td:last-child {
+    border-bottom: none;
+  }
+
+  .property-row:hover td {
+    background: transparent;
+  }
+
+  /* Edit mode on mobile: keep card structure */
+  .property-row--editing td {
+    padding: 10px 16px;
+    background: rgb(var(--now-color--neutral-1, 245, 246, 247));
+  }
+
+  /* Actions: right-align on mobile */
+  .property-row__actions {
+    justify-content: flex-end;
+  }
+
+  /* Toggle: right-align on mobile */
+  .property-row__toggle-cell {
+    justify-content: flex-end;
+  }
+}
+
+/* --- Spinner for saving state --- */
+.property-row__spinner-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.property-row__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(var(--now-color--neutral-4, 207, 213, 215));
+  border-top-color: rgb(var(--now-color--primary-1, 0, 128, 163));
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.property-row__spinner-text {
+  font-size: 0.8125rem;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  font-style: italic;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
