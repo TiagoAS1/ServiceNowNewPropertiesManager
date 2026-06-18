@@ -1,0 +1,57 @@
+/* ============================================================
+   Create Property Modal – Form layout & field styles
+   ============================================================ */
+
+.create-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.create-modal__scope-badge {
+  font-size: 0.8125rem;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  background: rgb(var(--now-color--neutral-1, 245, 246, 247));
+  border: 1px solid rgb(var(--now-color--neutral-3, 218, 222, 224));
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.create-modal__error {
+  font-size: 0.8125rem;
+  color: rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+  background: rgb(var(--now-color--alert-critical-0, 253, 232, 231));
+  border: 1px solid rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.create-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.create-modal__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(var(--now-color--neutral-18, 22, 27, 28));
+}
+
+.create-modal__required {
+  color: rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+}
+
+.create-modal__toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.create-modal__toggle-label {
+  font-size: 0.875rem;
+  color: rgb(var(--now-color--neutral-12, 55, 68, 74));
+  font-family: monospace;
+}
