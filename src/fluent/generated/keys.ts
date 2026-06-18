@@ -52,7 +52,7 @@ declare global {
                     br0: {
                         table: 'sys_script'
                         id: '1d18d27a01574779a94a14652e284b84'
-                        deleted: false
+                        deleted: true
                     }
                     c134af49c3e1cb103bd1f13ed40131f0: {
                         table: 'sys_scope_privilege'
@@ -61,7 +61,7 @@ declare global {
                     cs0: {
                         table: 'sys_script_client'
                         id: 'e56d1df8abdd4181a7c663e985f5c91a'
-                        deleted: false
+                        deleted: true
                     }
                     dc346389c3e1cb103bd1f13ed40131c0: {
                         table: 'sys_scope_privilege'
@@ -78,6 +78,7 @@ declare global {
                     src_server_script_js: {
                         table: 'sys_module'
                         id: 'c7d1ce780fd042f0ad76deb958b7cb5c'
+                        deleted: true
                     }
                 }
                 composite: [
