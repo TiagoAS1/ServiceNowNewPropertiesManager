@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>PUT</http_method>
+        <name>Update Property</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+    'use strict';
+
+    response.setContentType('application/json');
+
+    // --- 1. Parse and validate the request body ---
+    var body = request.body ? request.body.data : null;
+
+    if (!body || !body.sys_id) {
+        response.setStatus(400);
+        response.setBody({
+            error: {
+                message: 'Bad Request: Missing required field "sys_id" in request body.',
+                detail: 'Provide sys_id along with fields to update (name, value, type, description).'
+            }
+        });
+        return;
+    }
+
+    var sysId = String(body.sys_id);
+    var payload = {};
+
+    // Only include fields that were actually provided
+    if (body.name !== undefined) payload.name = String(body.name);
+    if (body.value !== undefined) payload.value = String(body.value);
+    if (body.type !== undefined) payload.type = String(body.type);
+    if (body.description !== undefined) payload.description = String(body.description);
+
+    if (Object.keys(payload).length === 0) {
+        response.setStatus(400);
+        response.setBody({
+            error: {
+                message: 'Bad Request: No updatable fields provided.',
+                detail: 'Include at least one of: name, value, type, description.'
+            }
+        });
+        return;
+    }
+
+    // --- 2. Delegate to the Global Script Include ---
+    try {
+        var helper = new global.PropertiesHelperGlobal();
+        var result = helper.updateProperty(sysId, payload);
+
+        if (result) {
+            response.setStatus(200);
+            response.setBody({
+                result: {
+                    sys_id: sysId,
+                    message: 'Property updated successfully.'
+                }
+            });
+        } else {
+            response.setStatus(404);
+            response.setBody({
+                error: {
+                    message: 'Not Found: Property with sys_id "' + sysId + '" does not exist or could not be updated.'
+                }
+            });
+        }
+    } catch (e) {
+        response.setStatus(500);
+        response.setBody({
+            error: {
+                message: 'Internal Server Error: ' + e.message,
+                detail: 'An unexpected error occurred while updating the property.'
+            }
+        });
+    }
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_589236_prprts/properties_manager/update</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/update</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <support_trailing_slash>false</support_trailing_slash>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-06-17 11:39:38</sys_created_on>
+        <sys_id>5a302a9dc3a90f103bd1f13ed401318c</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Update Property</sys_name>
+        <sys_package display_value="Properties Viewer" source="x_589236_prprts">8b7fb64dc3ad8b103bd1f13ed401316c</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Properties Viewer">8b7fb64dc3ad8b103bd1f13ed401316c</sys_scope>
+        <sys_update_name>sys_ws_operation_5a302a9dc3a90f103bd1f13ed401318c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-06-17 11:39:56</sys_updated_on>
+        <web_service_definition display_value="Properties Manager">17ef9e5dc3a90f103bd1f13ed4013126</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

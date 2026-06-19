@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_module">
+    <sys_module action="INSERT_OR_UPDATE">
+        <content><![CDATA[{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "serialNumber": "urn:uuid:ac5ab5ca-b7ca-4be0-83fe-acac52e3985f",
+  "metadata": {
+    "timestamp": "2026-06-17T12:59:17.222Z",
+    "tools": {
+      "components": [
+        {
+          "type": "library",
+          "name": "sdk-build-plugins",
+          "group": "@servicenow",
+          "version": "4.7.2",
+          "author": "ServiceNow"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "x-589236-properties-viewer",
+      "version": "1.0.0",
+      "bom-ref": "pkg:servicenow/x-589236-properties-viewer@1.0.0?sys_scope_id=8b7fb64dc3ad8b103bd1f13ed401316c",
+      "description": "A new way to view, edit, and manage your applications properties.",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNLICENSED"
+          }
+        }
+      ],
+      "purl": "pkg:servicenow/x-589236-properties-viewer@1.0.0?sys_scope_id=8b7fb64dc3ad8b103bd1f13ed401316c"
+    }
+  },
+  "components": [],
+  "dependencies": [
+    {
+      "ref": "pkg:servicenow/x-589236-properties-viewer@1.0.0?sys_scope_id=8b7fb64dc3ad8b103bd1f13ed401316c"
+    }
+  ]
+}]]></content>
+        <external_source>false</external_source>
+        <path>x_589236_prprts/x-589236-properties-viewer/1.0.0/bom.json</path>
+        <sys_class_name>sys_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-06-16 19:36:56</sys_created_on>
+        <sys_id>0bacbfc7f6854454a73c01746d0ee96a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_589236_prprts/x-589236-properties-viewer/1.0.0/bom.json</sys_name>
+        <sys_package display_value="Properties Viewer" source="x_589236_prprts">8b7fb64dc3ad8b103bd1f13ed401316c</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Properties Viewer">8b7fb64dc3ad8b103bd1f13ed401316c</sys_scope>
+        <sys_update_name>sys_module_0bacbfc7f6854454a73c01746d0ee96a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-06-16 19:36:56</sys_updated_on>
+    </sys_module>
+</record_update>

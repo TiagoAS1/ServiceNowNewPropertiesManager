@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_module">
+    <sys_module action="INSERT_OR_UPDATE">
+        <content><![CDATA[import { gs } from '@servicenow/glide'
+
+export function showStateUpdate(current, previous) {
+    const currentState = current.getValue('state')
+    const previousState = previous.getValue('state')
+
+    gs.addInfoMessage(`state updated from "${previousState}" to "${currentState}"`)
+}
+]]></content>
+        <external_source>false</external_source>
+        <path>x_589236_prprts/x-589236-properties-viewer/1.0.0/src/server/script.js</path>
+        <sys_class_name>sys_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-06-16 19:36:56</sys_created_on>
+        <sys_id>c7d1ce780fd042f0ad76deb958b7cb5c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_589236_prprts/x-589236-properties-viewer/1.0.0/src/server/script.js</sys_name>
+        <sys_package display_value="Properties Viewer" source="x_589236_prprts">8b7fb64dc3ad8b103bd1f13ed401316c</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Properties Viewer">8b7fb64dc3ad8b103bd1f13ed401316c</sys_scope>
+        <sys_update_name>sys_module_c7d1ce780fd042f0ad76deb958b7cb5c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-06-16 19:36:56</sys_updated_on>
+    </sys_module>
+</record_update>

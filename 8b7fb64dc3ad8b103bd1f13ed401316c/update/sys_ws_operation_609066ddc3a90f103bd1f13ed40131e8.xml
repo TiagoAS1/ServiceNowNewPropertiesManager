@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>DELETE</http_method>
+        <name>Delete Property</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+    'use strict';
+
+    response.setContentType('application/json');
+
+    // --- 1. Extract sys_id from path parameter ---
+    var sysId = request.pathParams.sys_id;
+
+    if (!sysId) {
+        response.setStatus(400);
+        response.setBody({
+            error: {
+                message: 'Bad Request: Missing path parameter "sys_id".',
+                detail: 'Use: DELETE /api/x_589236_prprts/properties_manager/delete/{sys_id}'
+            }
+        });
+        return;
+    }
+
+    // --- 2. Delegate to the Global Script Include ---
+    try {
+        var helper = new global.PropertiesHelperGlobal();
+        var result = helper.deleteProperty(String(sysId));
+
+        if (result) {
+            response.setStatus(200);
+            response.setBody({
+                result: {
+                    success: true,
+                    sys_id: sysId,
+                    message: 'Property deleted successfully.'
+                }
+            });
+        } else {
+            response.setStatus(404);
+            response.setBody({
+                error: {
+                    message: 'Not Found: Property with sys_id "' + sysId + '" does not exist or could not be deleted.'
+                }
+            });
+        }
+    } catch (e) {
+        response.setStatus(500);
+        response.setBody({
+            error: {
+                message: 'Internal Server Error: ' + e.message,
+                detail: 'An unexpected error occurred while deleting the property.'
+            }
+        });
+    }
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_589236_prprts/properties_manager/delete/{sys_id}</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/delete/{sys_id}</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <support_trailing_slash>false</support_trailing_slash>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-06-17 11:40:25</sys_created_on>
+        <sys_id>609066ddc3a90f103bd1f13ed40131e8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Delete Property</sys_name>
+        <sys_package display_value="Properties Viewer" source="x_589236_prprts">8b7fb64dc3ad8b103bd1f13ed401316c</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Properties Viewer">8b7fb64dc3ad8b103bd1f13ed401316c</sys_scope>
+        <sys_update_name>sys_ws_operation_609066ddc3a90f103bd1f13ed40131e8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-06-17 11:40:25</sys_updated_on>
+        <web_service_definition display_value="Properties Manager">17ef9e5dc3a90f103bd1f13ed4013126</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>
