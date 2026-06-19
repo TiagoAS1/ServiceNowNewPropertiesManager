@@ -26,5 +26,15 @@ RestApi({
             path: '/delete/{sys_id}',
             enforceAcl: [],
         },
+        {
+            $id: Now.ID['5d433c02c36103103bd1f13ed40131e2'],
+            name: 'Create Property',
+            consumes: 'application/json,application/xml,text/xml',
+            method: 'POST',
+            script: Now.include('./sys_ws_operation_5d433c02c36103103bd1f13ed40131e2.js'),
+            produces: 'application/json,application/xml,text/xml',
+            path: '/create',
+            enforceAcl: [],
+        },
     ],
 })
