@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>POST</http_method>
+        <name>Create Property</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+    var body = request.body.data;
+    
+    // Validate required fields
+    if (!body.name || !body.sys_scope) {
+        response.setStatus(400);
+        return { error: 'Missing required fields: name, sys_scope' };
+    }
+    
+    var helper = new global.PropertiesHelperGlobal();
+    var result = helper.createProperty({
+        name: body.name,
+        value: body.value || '',
+        type: body.type || 'string',
+        description: body.description || '',
+        sys_scope: body.sys_scope
+    });
+    
+    if (result.error) {
+        response.setStatus(400);
+        return result;
+    }
+    
+    response.setStatus(201);
+    return result;
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_589236_prprts/properties_manager/create</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/create</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <support_trailing_slash>false</support_trailing_slash>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-06-19 11:38:20</sys_created_on>
+        <sys_id>5d433c02c36103103bd1f13ed40131e2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Create Property</sys_name>
+        <sys_package display_value="Properties Viewer" source="x_589236_prprts">8b7fb64dc3ad8b103bd1f13ed401316c</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Properties Viewer">8b7fb64dc3ad8b103bd1f13ed401316c</sys_scope>
+        <sys_update_name>sys_ws_operation_5d433c02c36103103bd1f13ed40131e2</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-06-19 11:38:20</sys_updated_on>
+        <web_service_definition display_value="Properties Manager">17ef9e5dc3a90f103bd1f13ed4013126</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>
