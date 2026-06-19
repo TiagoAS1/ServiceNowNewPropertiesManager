@@ -1,6 +1,6 @@
 /**
  * PropertiesService.ts
- * ============================================================
+ * 
  * Client-side service for CRUD operations on sys_properties.
  *
  * Architecture:
@@ -9,7 +9,7 @@
  *   proxy at /api/x_589236_prprts/properties_manager which delegates
  *   to the global PropertiesHelperGlobal Script Include to bypass
  *   cross-scope restrictions (update_access=0 on sys_properties).
- * ============================================================
+ * 
  */
 
 export interface PropertyRecord {
@@ -44,9 +44,10 @@ function extractField(field: any): string {
   return String(field);
 }
 
-// ============================================================
+// 
 // READ – Standard Table API (read_access=1, no restrictions)
-// ============================================================
+// 
+
 export async function list(scopeId: string): Promise<PropertyRecord[]> {
   const allRecords: PropertyRecord[] = [];
   let offset = 0;
@@ -90,9 +91,10 @@ export async function list(scopeId: string): Promise<PropertyRecord[]> {
   return allRecords;
 }
 
-// ============================================================
+// 
 // UPDATE – Routes through scoped Scripted REST API proxy
-// ============================================================
+// 
+
 export async function update(
   sysId: string,
   payload: { name?: string; value?: string; type?: string; description?: string }
@@ -123,9 +125,46 @@ export async function update(
   throw new Error(errorMessage);
 }
 
-// ============================================================
+// 
+// CREATE – Routes through scoped Scripted REST API proxy
+// 
+
+export async function create(payload: {
+  name: string;
+  value: string;
+  type: string;
+  description: string;
+  sys_scope: string;
+}): Promise<string> {
+  const res = await fetch(`${PROXY_API}/create`, {
+    method: "POST",
+    headers: getHeaders(),
+    credentials: "same-origin",
+    body: JSON.stringify(payload)
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    return data?.result?.sys_id || "";
+  }
+
+  let errorMessage = `HTTP ${res.status}: Failed to create property`;
+  try {
+    const errorData = await res.json();
+    if (errorData?.error?.message) {
+      errorMessage = errorData.error.message;
+    } else if (errorData?.result?.error) {
+      errorMessage = errorData.result.error;
+    }
+  } catch { /* use default message */ }
+
+  throw new Error(errorMessage);
+}
+
+// 
 // DELETE – Routes through scoped Scripted REST API proxy
-// ============================================================
+// 
+
 export async function remove(sysId: string): Promise<void> {
   const res = await fetch(`${PROXY_API}/delete/${sysId}`, {
     method: "DELETE",

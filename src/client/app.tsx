@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Select, SelectSelectedItemSet } from "@servicenow/react-components/Select";
 import { Button } from "@servicenow/react-components/Button";
+import { ButtonIconic } from "@servicenow/react-components/ButtonIconic";
 import PropertiesTable from "./components/PropertiesTable";
+import CreatePropertyModal, { CreatePropertyPayload } from "./components/CreatePropertyModal";
+import { create } from "./services/PropertiesService";
 import "./app.css";
 
-// ============================================================
+// 
 // Types
-// ============================================================
+// 
+
 interface AppItem {
   id: string;
   label: string;
@@ -18,16 +22,18 @@ interface SelectItem {
   group?: string;
 }
 
-// ============================================================
+// 
 // Constants
-// ============================================================
+// 
+
 const RECENT_APPS_KEY = "x_589236_prprts.recent_apps";
 const MAX_RECENT = 5;
 const URL_PARAM = "app_sys_id";
 
-// ============================================================
+// 
 // Utility: Wait for g_ck token
-// ============================================================
+// 
+
 function waitForToken(maxWait = 5000): Promise<string> {
   return new Promise((resolve, reject) => {
     const ck = (window as any).g_ck;
@@ -54,9 +60,9 @@ function getHeaders(): Record<string, string> {
   return headers;
 }
 
-// ============================================================
+// 
 // Data Fetching
-// ============================================================
+// 
 async function fetchAllApps(): Promise<AppItem[]> {
   await waitForToken();
 
@@ -99,9 +105,10 @@ async function fetchAllApps(): Promise<AppItem[]> {
   return allApps;
 }
 
-// ============================================================
+// 
 // URL Parameter Helpers
-// ============================================================
+// 
+
 function getUrlParam(): string {
   const params = new URLSearchParams(window.location.search);
   return params.get(URL_PARAM) || "";
@@ -117,9 +124,10 @@ function setUrlParam(appSysId: string) {
   window.history.pushState({ appSysId }, "", url.toString());
 }
 
-// ============================================================
+// 
 // Recent Apps (localStorage)
-// ============================================================
+// 
+
 function getRecentAppIds(): string[] {
   try {
     const raw = localStorage.getItem(RECENT_APPS_KEY);
@@ -140,9 +148,10 @@ function saveRecentAppId(appSysId: string) {
   } catch { /* storage full or unavailable */ }
 }
 
-// ============================================================
+// 
 // Sort apps with recents at top, grouped
-// ============================================================
+// 
+
 function buildGroupedItems(apps: AppItem[], recentIds: string[]): SelectItem[] {
   if (recentIds.length === 0) return apps;
 
@@ -150,7 +159,6 @@ function buildGroupedItems(apps: AppItem[], recentIds: string[]): SelectItem[] {
   const recentApps: SelectItem[] = [];
   const otherApps: SelectItem[] = [];
 
-  // Maintain recent order for the top group
   const appMap = new Map(apps.map(a => [a.id, a]));
   for (const id of recentIds) {
     const app = appMap.get(id);
@@ -159,7 +167,6 @@ function buildGroupedItems(apps: AppItem[], recentIds: string[]): SelectItem[] {
     }
   }
 
-  // All other apps alphabetically
   for (const app of apps) {
     if (!recentSet.has(app.id)) {
       otherApps.push({ id: app.id, label: app.label, group: "All Applications" });
@@ -169,16 +176,28 @@ function buildGroupedItems(apps: AppItem[], recentIds: string[]): SelectItem[] {
   return [...recentApps, ...otherApps];
 }
 
-// ============================================================
+// 
 // Main App Component
-// ============================================================
+// 
+
 export default function App() {
   const [apps, setApps] = useState<AppItem[]>([]);
   const [selectedAppId, setSelectedAppId] = useState<string>("");
   const [selectedAppLabel, setSelectedAppLabel] = useState<string>("");
   const [loadError, setLoadError] = useState("");
   const [groupedItems, setGroupedItems] = useState<SelectItem[]>([]);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [toast, setToast] = useState<{ message: string; status: "positive" | "critical" } | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
   const isInitialLoad = useRef(true);
+
+  // Auto-dismiss toast
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   // --- Load apps and apply deep link + recents ---
   useEffect(() => {
@@ -186,11 +205,9 @@ export default function App() {
       .then(items => {
         setApps(items);
 
-        // Build grouped list with recents
         const recentIds = getRecentAppIds();
         setGroupedItems(buildGroupedItems(items, recentIds));
 
-        // Deep link: auto-select from URL parameter
         const urlAppId = getUrlParam();
         if (urlAppId) {
           const match = items.find(a => a.id === urlAppId);
@@ -234,17 +251,28 @@ export default function App() {
 
     setSelectedAppId(appId);
     setSelectedAppLabel(appLabel);
-
-    // Update URL for deep linking / shareability
     setUrlParam(appId);
-
-    // Track as recent
     saveRecentAppId(appId);
 
-    // Rebuild grouped items to reflect new recents order
     const recentIds = getRecentAppIds();
     setGroupedItems(buildGroupedItems(apps, recentIds));
   }, [apps]);
+
+  // --- Handle create property ---
+  const handleCreateSubmit = async (payload: CreatePropertyPayload) => {
+    setIsCreating(true);
+    try {
+      await create(payload);
+      setToast({ message: `Property "${payload.name}" created successfully.`, status: "positive" });
+      setCreateModalOpen(false);
+      // Trigger table refresh
+      setRefreshKey(prev => prev + 1);
+    } catch (e: any) {
+      setToast({ message: e?.message || "Failed to create property", status: "critical" });
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   return (
     <div className="pm-page">
@@ -255,8 +283,27 @@ export default function App() {
           variant="primary"
           icon="plus-fill"
           size="md"
+          disabled={!selectedAppId}
+          tooltipContent={!selectedAppId ? "Select an application first" : ""}
+          onClicked={() => setCreateModalOpen(true)}
         />
       </div>
+
+      {/* Toast notification */}
+      {toast && (
+        <div className={`pm-toast pm-toast--${toast.status}`}>
+          <span className="pm-toast__message">{toast.message}</span>
+          <ButtonIconic
+            icon="close-outline"
+            bare={true}
+            size="sm"
+            hidePadding={true}
+            configAria={{ "aria-label": "Dismiss" }}
+            onClicked={() => setToast(null)}
+          />
+        </div>
+      )}
+
       <div className="pm-card">
         <label className="pm-card__label">Select Application</label>
         <div className="pm-card__input">
@@ -272,13 +319,27 @@ export default function App() {
         )}
       </div>
       {selectedAppId && (
-        <PropertiesTable scopeId={selectedAppId} scopeLabel={selectedAppLabel} />
+        <PropertiesTable
+          key={refreshKey}
+          scopeId={selectedAppId}
+          scopeLabel={selectedAppLabel}
+        />
       )}
       {!selectedAppId && (
         <p className="pm-page__empty">
           Select an application above to view and manage its properties.
         </p>
       )}
+
+      {/* Create Property Modal */}
+      <CreatePropertyModal
+        opened={createModalOpen}
+        scopeId={selectedAppId}
+        scopeLabel={selectedAppLabel}
+        isCreating={isCreating}
+        onSubmit={handleCreateSubmit}
+        onCancel={() => setCreateModalOpen(false)}
+      />
     </div>
   );
 }

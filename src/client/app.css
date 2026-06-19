@@ -1,7 +1,8 @@
-/* ============================================================
+/* 
    Properties Manager – Page Layout & Header Styles
    Uses ServiceNow Horizon Design Tokens for consistency
-   ============================================================ */
+   
+*/
 
 /* --- Page Background --- */
 .pm-page {
@@ -83,4 +84,39 @@
   font-size: 0.9375rem;
   font-style: italic;
   margin: 0;
+}
+
+/* --- Global Toast Notifications --- */
+.pm-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: pm-toast-slide-in 0.25s ease-out;
+}
+
+.pm-toast--positive {
+  background: rgb(var(--now-color--alert-positive-0, 227, 245, 225));
+  border: 1px solid rgb(var(--now-color--alert-positive-2, 73, 148, 68));
+  color: rgb(var(--now-color--alert-positive-3, 35, 95, 31));
+}
+
+.pm-toast--critical {
+  background: rgb(var(--now-color--alert-critical-0, 253, 232, 231));
+  border: 1px solid rgb(var(--now-color--alert-critical-2, 178, 10, 0));
+  color: rgb(var(--now-color--alert-critical-3, 130, 5, 0));
+}
+
+.pm-toast__message {
+  flex: 1;
+  margin-right: 12px;
+}
+
+@keyframes pm-toast-slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
